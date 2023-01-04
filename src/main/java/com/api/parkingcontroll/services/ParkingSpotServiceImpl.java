@@ -4,6 +4,7 @@ package com.api.parkingcontroll.services;
 import com.api.parkingcontroll.models.ParkingSpotModel;
 import com.api.parkingcontroll.repositories.ParkingSpotRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Primary
 public class ParkingSpotServiceImpl implements ParkingSpotService{
 
     final ParkingSpotRepository parkingSpotRepository;
@@ -62,7 +64,6 @@ public class ParkingSpotServiceImpl implements ParkingSpotService{
     public void deleteOneParkingSpot(ParkingSpotModel parkingSpotModel) {
         parkingSpotRepository.delete(parkingSpotModel);
     }
-
 
 
 

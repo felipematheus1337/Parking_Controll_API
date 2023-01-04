@@ -3,10 +3,14 @@ package com.api.parkingcontroll.controllers;
 
 import com.api.parkingcontroll.dtos.ParkingSpotDTO;
 import com.api.parkingcontroll.models.ParkingSpotModel;
+import com.api.parkingcontroll.services.ParkingSpotService;
 import com.api.parkingcontroll.services.ParkingSpotServiceImpl;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,9 +30,21 @@ import java.util.UUID;
 @RequestMapping("/parking-spot")
 public class ParkingSpotController {
 
-    final ParkingSpotServiceImpl parkingSpotService;
+    @Autowired
+    //@Qualifier("parkingSpotServiceImpl")
+    final ParkingSpotService parkingSpotService;
 
-    public ParkingSpotController(ParkingSpotServiceImpl parkingSpotService) {
+    @Value("${app.name}")
+    private String appName;
+
+    @Value("${app.port}")
+    private String appPort;
+
+    @Value("${app.host}")
+    private String appHost;
+
+
+    public ParkingSpotController(ParkingSpotService parkingSpotService) {
         this.parkingSpotService = parkingSpotService;
     }
 
@@ -56,6 +72,9 @@ public class ParkingSpotController {
 
     @GetMapping
     public ResponseEntity<Page<ParkingSpotModel>> getAllParkingSpots(@PageableDefault(page = 0, size= 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        System.out.println("appName" + appName);
+        System.out.println("appHost" + appHost);
+        System.out.println("appPort" + appPort);
         return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.getAll(pageable));
     }
 
